@@ -1,0 +1,76 @@
+/* primary: '#145C9E',
+        secondary: '#87BBA2',
+        accent: '#F6AE2D',
+        lightGrayText: '#6D6D6D',
+        darkText: '#011627',
+        darkGray: '#3C4042',
+        mediumGray: '#808080',
+        lightGray: '#bebbbb',
+        backgroundGray: '#fafafa',
+        // softBlack: '#272727',
+        // softGray: '#e0e0e0',
+        // offWhite: '#FDFDFD',
+        // backgroundGray: '#efefef'
+        black1: '#222222',
+        black2: '#333333',
+        red1: '#ff0000',
+        blue1: '#47AAE3',
+        blue2: '#023e8a',
+        blue3: '#03045e',
+        blue4: '#0077b6',
+        // white1: '#F4F7F5',
+        white1: '#efefef',
+        white2: '#fafafa',
+        white3: '#f5f5f5',
+        blackText1: '#202030',
+        green1: '#519872',
+        grayText: '#2E404C',
+        grayText2: '#A9B4BD',
+        grayText3: '#D1D7DB',
+        red2: '#DF2F4D' */
+
+html {
+  --dark-black: #222222;
+  --light-black: #333333;
+  --off-white: #efefef;
+}
+
+body {
+  margin: 0;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--light-black);
+  color: var(--off-white);
+}
+
+.container {
+  max-width: 60vw;
+  margin: 0 auto;
+}
+
+.header {
+  height: 20vh;
+  padding-top: 200px;
+  text-align: center;
+}
+
+.game-board-wrapper {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-board {
+  display: grid;
+  grid-template-rows: 200px 200px 200px;
+  grid-template-columns: 200px 200px 200px;
+}
+
+.square {
+  border: 2px solid var(--off-white);
+}
