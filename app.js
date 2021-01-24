@@ -2,6 +2,7 @@ import { appWrapper } from './components/appWrapper.js'
 import { header } from './components/header.js'
 import { playerForm } from './components/playerForm.js'
 import { board } from './components/board.js'
+import { playerInfo } from './components/playerInfo.js'
 
 const app = document.getElementById('app')
 app.insertAdjacentElement('afterbegin', appWrapper())
@@ -11,19 +12,24 @@ const container = document.querySelector('.container')
 container.insertAdjacentElement('afterbegin', header())
 container.insertAdjacentElement('beforeend', playerForm())
 
-const boardasdf = board()
+const button = document.querySelector('button')
+button.addEventListener('click', (event) => {
+  const playerInfoEl = document.querySelector('.player-info')
 
-console.log('board', boardasdf)
+  if (playerInfoEl) {
+    playerInfoEl.remove()
+  }
 
-container.insertAdjacentElement('beforeend', boardasdf)
+  const playerOne = document.getElementById('player-1-name').value
+  const playerTwo = document.getElementById('player-2-name').value
 
-// const board = document.getElementById('game-board')
+  const formContainer = document.querySelector('.form-container')
+  formContainer.insertAdjacentElement('afterend', playerInfo(playerOne, playerTwo))
 
-// const formRootEl = document.querySelector('.form')
+  const inputs = document.querySelectorAll('input')
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = ''
+  }
+})
 
-// const form = playerForm()
-// formRootEl.insertAdjacentElement('beforeend', form)
-
-// for (let i = 0; i < 9; i++) {
-//   board.insertAdjacentHTML('beforeend', `<div class="square square-${i + 1}"></div>`)
-// }
+container.insertAdjacentElement('beforeend', board())

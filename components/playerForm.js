@@ -3,16 +3,16 @@ import { createElementFromHTML } from '../helpers/createElementFromHTML.js'
 export function playerForm() {
   return createElementFromHTML(`
     <div class="form-container flex-center">
-      <form class="player-form">
-        <div class="player-1">
+      <form action="" method="" class="player-form" onsubmit="return false;">
+        <div class="player-1 input-controls">
           <label for="player-1-name">Player 1:</label>
-          <input type="text" form minlength="1" placeholder="Player 1 name" name="player-1-name" required>
+          <input type="text" tabindex="1" form minlength="1" placeholder="Name" name="player-1-name" id="player-1-name" value="" required>
         </div>
-        <div class="player-2">
+        <div class="player-2 input-controls">
           <label for="player-2-name">Player 2:</label>
-          <input type="text" form minlength="1" placeholder="Player 2 name" name="player-2-name" required>
+          <input type="text" tabindex="2" form minlength="1" placeholder="Name" name="player-2-name" id="player-2-name" value="" required>
         </div>
-        <button>Start game</button>
+        <button type="submit" formaction="' tabindex="3">Start game</button>
       </form>
     </div>
   `)

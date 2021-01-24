@@ -9,7 +9,5 @@ export function board() {
 
   HTMLString += '</div></div>'
 
-  console.log('html string', HTMLString)
-
   return createElementFromHTML(HTMLString)
 }
