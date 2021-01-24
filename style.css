@@ -40,37 +40,53 @@ body {
 }
 
 .wrapper {
-  width: 100vw;
-  height: 100vh;
+  /* position: absolute;
+  top: 0;
+  right: 0;
+  left: 0; */
+  height: 100%;
+  width: 100%;
   background-color: var(--light-black);
   color: var(--off-white);
 }
 
 .container {
-  max-width: 60vw;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
 .header {
-  height: 20vh;
-  padding-top: 200px;
-  text-align: center;
-}
-
-.game-board-wrapper {
-  height: 400px;
-  width: 100%;
+  height: 200px;
+  padding-top: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#game-board {
+h1 {
+  font-size: 48px;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  padding: 50px 0;
+}
+
+.board-container {
+  padding: 100px 0;
+}
+
+.board {
   display: grid;
   grid-template-rows: 200px 200px 200px;
   grid-template-columns: 200px 200px 200px;
 }
 
-.square {
+.board > * {
   border: 2px solid var(--off-white);
 }
