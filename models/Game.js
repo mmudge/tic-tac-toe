@@ -98,9 +98,13 @@ export default class Game {
     })
 
     if (Object.values(this.gameState).every((square) => square != '')) {
-      alert('Game is a draw!')
+      setTimeout(() => {
+        alert('Game is a draw!')
+      }, 0)
     } else if (winner) {
-      alert(`${winner} wins!!`)
+      setTimeout(() => {
+        alert(`${winner} wins!!`)
+      }, 0)
     }
   }
 }
