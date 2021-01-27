@@ -33,7 +33,6 @@ export default class Game {
   }
 
   refreshGameState() {
-    console.log('game state', this.gameState)
     this.clearGameState()
     this.createGameState()
   }
@@ -48,13 +47,6 @@ export default class Game {
     this.gameState = {}
   }
 
-  updateGameState(squareName, playerMarker) {
-    this.gameState[squareName] = playerMarker
-
-    console.log('updated game state', this.gameState)
-    this.checkIfPlayerWins()
-  }
-
   makeMove(eventTarget) {
     let playerMarker = ''
     if (this.playerOneTurn) {
@@ -64,10 +56,16 @@ export default class Game {
     }
 
     eventTarget.insertAdjacentElement('beforeend', createElementFromHTML(`<div>${playerMarker}</div>`))
+
     this.updateGameState(eventTarget.className, playerMarker)
 
     this.playerOneTurn = !this.playerOneTurn
     this.updatePlayerTurnText()
+  }
+
+  updateGameState(squareName, playerMarker) {
+    this.gameState[squareName] = playerMarker
+    this.checkIfPlayerWins()
   }
 
   updatePlayerTurnText() {
@@ -77,6 +75,7 @@ export default class Game {
   }
 
   checkIfPlayerWins() {
+    // TODO make this smarter
     const winningIndexes = [
       [0, 1, 2],
       [3, 4, 5],
@@ -98,7 +97,9 @@ export default class Game {
       }
     })
 
-    if (winner) {
+    if (Object.values(this.gameState).every((square) => square != '')) {
+      alert('Game is a draw!')
+    } else if (winner) {
       alert(`${winner} wins!!`)
     }
   }
