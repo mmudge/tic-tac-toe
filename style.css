@@ -74,7 +74,7 @@ h2 {
 
 .content {
   display: flex;
-  padding: 100px;
+  padding-top: 100px;
 }
 
 .left-content {
@@ -115,4 +115,7 @@ h2 {
 
 .board > * {
   border: 2px solid var(--off-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

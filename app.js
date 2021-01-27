@@ -4,6 +4,7 @@ import { playerForm } from './components/playerForm.js'
 import { board } from './components/board.js'
 import { playerInfo } from './components/playerInfo.js'
 import { createElementFromHTML } from './helpers/createElementFromHTML.js'
+import Game from './models/Game.js'
 
 const app = document.getElementById('app')
 app.insertAdjacentElement('afterbegin', appWrapper())
@@ -24,29 +25,39 @@ content.insertAdjacentElement('beforeend', leftContent)
 
 leftContent.insertAdjacentElement('beforeend', playerForm())
 
+const rightContent = createElementFromHTML('<div class="right-content"></div>')
+
+content.insertAdjacentElement('beforeend', rightContent)
+
+const boardEl = board()
+
+rightContent.insertAdjacentElement('beforeend', boardEl)
+
+function clearInputs() {
+  const inputs = document.querySelectorAll('input')
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = ''
+  }
+}
+
 const button = document.querySelector('button')
 button.addEventListener('click', (event) => {
+  const playerOne = document.getElementById('player-1-name').value
+  const playerTwo = document.getElementById('player-2-name').value
+
+  if (!(playerOne && playerTwo)) {
+    alert('Enter player one and twos name to start the game!')
+    return
+  }
+
   const playerInfoEl = document.querySelector('.player-info')
 
   if (playerInfoEl) {
     playerInfoEl.remove()
   }
 
-  const playerOne = document.getElementById('player-1-name').value
-  const playerTwo = document.getElementById('player-2-name').value
-
-  const formContainer = document.querySelector('.form-container')
-  // formContainer.insertAdjacentElement('afterend', playerInfo(playerOne, playerTwo))
   headerEl.insertAdjacentElement('beforeend', playerInfo(playerOne, playerTwo))
 
-  const inputs = document.querySelectorAll('input')
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].value = ''
-  }
+  clearInputs()
+  new Game(playerOne, playerTwo)
 })
-
-const rightContent = createElementFromHTML('<div class="right-content"></div>')
-
-content.insertAdjacentElement('beforeend', rightContent)
-
-rightContent.insertAdjacentElement('beforeend', board())
