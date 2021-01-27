@@ -46,7 +46,9 @@ button.addEventListener('click', (event) => {
   const playerTwo = document.getElementById('player-2-name').value
 
   if (!(playerOne && playerTwo)) {
-    alert('Enter player one and twos name to start the game!')
+    setTimeout(() => {
+      alert('Enter player one and twos name to start the game!')
+    }, 0)
     return
   }
 
@@ -59,5 +61,9 @@ button.addEventListener('click', (event) => {
   headerEl.insertAdjacentElement('beforeend', playerInfo(playerOne, playerTwo))
 
   clearInputs()
-  new Game(playerOne, playerTwo)
+  console.log('creating a new game')
+
+  let game = null
+  game = new Game(playerOne, playerTwo)
+  game.start()
 })

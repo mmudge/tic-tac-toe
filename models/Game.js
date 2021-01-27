@@ -1,34 +1,48 @@
+import { playerInfo } from '../components/playerInfo.js'
 import { createElementFromHTML } from '../helpers/createElementFromHTML.js'
 
 export default class Game {
   constructor(playerOne, playerTwo) {
     this.playerOne = playerOne
     this.playerTwo = playerTwo
+    this.gameState = null
+    this.playerOneTurn = true
+    this.winner = null
+  }
 
+  start() {
     this.refreshGameState()
     this.setEventListeners()
   }
 
-  gameState = {}
-  playerOneTurn = true
+  // gameState = {}
+  // playerOneTurn = true
 
   get activePlayersTurn() {
     return this.playerOneTurn ? this.playerOne : this.playerTwo
   }
 
-  setEventListeners() {
+  get squares() {
     const board = document.querySelector('.board')
-    const squares = board.children
+    return board.children
+  }
 
-    for (let i = 0; i < squares.length; i++) {
-      squares[i].addEventListener('click', (event) => {
-        const squareEl = event.target
-        if (!squareEl.firstChild) {
-          this.makeMove(squareEl)
-        } else {
-          alert('That square is already taken!')
-        }
+  setEventListeners() {
+    for (let i = 0; i < this.squares.length; i++) {
+      this.squares[i].addEventListener('click', (event) => {
+        this.onClickHandler(event)
       })
+    }
+  }
+
+  onClickHandler(event) {
+    const squareEl = event.target
+    if (!squareEl.firstChild) {
+      this.makeMove(squareEl)
+    } else {
+      console.log('first child square', squareEl.firstChild)
+      // alert('That square is already taken!')
+      console.log('That square is already taken!')
     }
   }
 
@@ -39,12 +53,36 @@ export default class Game {
 
   createGameState() {
     for (let i = 0; i < 9; i++) {
+      this.gameState = Object.create({})
       this.gameState[`square-${i + 1}`] = ''
     }
   }
 
   clearGameState() {
-    this.gameState = {}
+    this.winner = null
+    if (this.gameState) {
+      const keys = Object.keys(this.gameState)
+
+      keys.forEach((key) => {
+        this.gameState[key] = ''
+        delete this.gameState[key]
+      })
+      this.gameState = {}
+    }
+
+    console.log('clearing game state', this.gameState)
+    for (let i = 0; i < this.squares.length; i++) {
+      this.squares[i].removeEventListener('click', (event) => this.onClickHandler(event))
+
+      if (this.squares[i].children) {
+        for (const child of this.squares[i].children) {
+          child.remove()
+        }
+        // this.gameState[this.squares[i].className] = ''
+      }
+    }
+
+    this.clearPlayerTurnText()
   }
 
   makeMove(eventTarget) {
@@ -59,8 +97,10 @@ export default class Game {
 
     this.updateGameState(eventTarget.className, playerMarker)
 
-    this.playerOneTurn = !this.playerOneTurn
-    this.updatePlayerTurnText()
+    if (!this.winner) {
+      this.playerOneTurn = !this.playerOneTurn
+      this.updatePlayerTurnText()
+    }
   }
 
   updateGameState(squareName, playerMarker) {
@@ -69,8 +109,23 @@ export default class Game {
   }
 
   updatePlayerTurnText() {
+    this.clearPlayerTurnText()
+    this.addPlayerTurnText()
+  }
+
+  clearPlayerTurnText() {
     const playerTurnEl = document.querySelector('.player-turn')
     playerTurnEl.innerText = ''
+  }
+
+  clearPlayerInfo() {
+    const playerInfoEl = document.querySelector('.player-info')
+    const h2 = playerInfoEl.querySelector('h2')
+    h2.remove()
+  }
+
+  addPlayerTurnText() {
+    const playerTurnEl = document.querySelector('.player-turn')
     playerTurnEl.innerText = `${this.activePlayersTurn}'s turn!`
   }
 
@@ -87,23 +142,37 @@ export default class Game {
       [2, 4, 6],
     ]
 
-    let winner = null
+    const game = Object.create(this.gameState)
 
     winningIndexes.forEach((combos) => {
-      if (combos.every((combo) => this.gameState[`square-${combo + 1}`] === 'X')) {
-        winner = this.playerOne
-      } else if (combos.every((combo) => this.gameState[`square-${combo + 1}`] === 'O')) {
-        winner = this.playerTwo
+      if (
+        combos.every((combo) => {
+          return game[`square-${combo + 1}`] === 'X'
+        })
+      ) {
+        this.winner = this.playerOne
+      } else if (
+        combos.every((combo) => {
+          return game[`square-${combo + 1}`] === 'O'
+        })
+      ) {
+        this.winner = this.playerTwo
       }
     })
 
-    if (Object.values(this.gameState).every((square) => square != '')) {
+    const values = Object.values(game)
+
+    if (values && values.length && values.every((square) => square && square != '')) {
       setTimeout(() => {
         alert('Game is a draw!')
+        this.clearGameState()
+        this.clearPlayerInfo()
       }, 0)
-    } else if (winner) {
+    } else if (this.winner) {
       setTimeout(() => {
-        alert(`${winner} wins!!`)
+        alert(`${this.winner} wins!!`)
+        this.clearGameState()
+        this.clearPlayerInfo()
       }, 0)
     }
   }
